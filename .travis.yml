@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+- '0.10'
+env:
+  GYAZO_TOKEN:
+    secure: ITm7g/BJmAZdUWQHyZ/v/ZiwmE1g2RdXRaMwfHiRH+jBmAgTNZaxrSmSklDyHnMcjUCIHENrXkeAwulz6eK0J5dwcF+V4E+Wuxhy4aUAwMat+S/3T5HnIIDN54gGmM2csJcxDGj5btC0r/zi8LoYl6MkkHDrjzGqDNHQPr43qzw=
+notifications:
+  slack:
+    secure: JzdsoRPzirozD5vkJpneYVi6Dx4JH72/LtwcNP7ckOrhYDsrE1E/hQvlBCIW84D8/uG4sZKnkB9JP4NocOa3f3INspbiawxFOSPsvIP8HFOdkvrYQdSW7kO0867EHxSfGgq1b34OwdHfLcvn1saPpj8NPv36Hg9y5KzclaeWWZM=
