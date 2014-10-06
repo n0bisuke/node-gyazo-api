@@ -11,7 +11,7 @@ module.exports = class Gyazo
     new Promise (resolve, reject) =>
       if typeof image is 'string'
         image = fs.createReadStream image
-      url = "https://upload.gyazo.com/api/upload"
+      url = "http://upload.gyazo.com/api/upload"
       request.post
         uri: url
         qs:
