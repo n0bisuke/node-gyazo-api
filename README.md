@@ -25,3 +25,17 @@ client.upload('/path/to/file.jpg')
   console.error(err);
 });
 ```
+
+### list
+
+```javascript
+client.list({page: 1, per_page: 50})
+.then(function(res){
+  console.log(res.data[0]);
+  console.log(res.response.headers['x-current-page']); // => 1
+  console.log(res.response.headers['x-per-page']);     // => 50
+})
+.catch(function(err){
+  console.error(err);
+});
+```
