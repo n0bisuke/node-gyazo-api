@@ -13,7 +13,7 @@ module.exports = class Gyazo
         image = fs.createReadStream image
       url = "https://upload.gyazo.com/api/upload"
       request.post
-        url: url
+        uri: url
         qs:
           access_token: @access_token
       , (err, res, body) ->
