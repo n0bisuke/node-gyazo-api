@@ -6,7 +6,7 @@ assert  = require 'assert'
 {Promise} = require 'es6-promise'
 
 Gyazo = require path.resolve()
-
+img_path = "#{__dirname}/test.jpg"
 
 describe 'GYAZO_TOKEN', ->
 
@@ -22,7 +22,7 @@ describe '"upload" method', ->
 
     @timeout 10000
 
-    gyazo.upload "#{__dirname}/test.jpg"
+    gyazo.upload img_path
     .then (res) ->
       new Promise (resolve, reject) ->
         assert.equal typeof(res.response), 'object'
@@ -35,7 +35,7 @@ describe '"upload" method', ->
 
     @timeout 10000
 
-    gyazo.upload fs.createReadStream "#{__dirname}/test.jpg"
+    gyazo.upload fs.createReadStream img_path
     .then (res) ->
       assert.equal typeof(res.response), 'object'
       assert.equal typeof(res.data.image_id), 'string'
@@ -63,3 +63,23 @@ describe '"list" method', ->
       assert.equal /^https?:\/\/.+/.test(res.data[0].url), true
       assert.equal res.response.headers['x-current-page'], 2
       assert.equal res.response.headers['x-per-page'], 5
+
+
+describe '"delete" method', ->
+
+  gyazo = new Gyazo process.env.GYAZO_TOKEN
+
+  it 'should delete uploaded image', ->
+
+    @timeout 10000
+
+    image_id_uploaded = null
+
+    gyazo.upload "#{__dirname}/test.jpg"
+    .then (res) ->
+      image_id_uploaded = res.data.image_id
+      return res.data.image_id
+    .then gyazo.del
+    .then (res) ->
+      assert.equal res.data.image_id, image_id_uploaded
+
