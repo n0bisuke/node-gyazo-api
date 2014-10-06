@@ -14,7 +14,7 @@ describe 'GYAZO_TOKEN', ->
     assert.equal typeof process.env.GYAZO_TOKEN, 'string'
 
 
-describe 'upload method', ->
+describe '"upload" method', ->
 
   gyazo = new Gyazo process.env.GYAZO_TOKEN
 
@@ -25,9 +25,10 @@ describe 'upload method', ->
     gyazo.upload "#{__dirname}/test.jpg"
     .then (res) ->
       new Promise (resolve, reject) ->
-        assert.equal typeof(res.image_id), 'string'
-        assert.equal /^https?:\/\/.+/.test(res.permalink_url), true
-        assert.equal /^https?:\/\/.+/.test(res.url), true
+        assert.equal typeof(res.response), 'object'
+        assert.equal typeof(res.data.image_id), 'string'
+        assert.equal /^https?:\/\/.+/.test(res.data.permalink_url), true
+        assert.equal /^https?:\/\/.+/.test(res.data.url), true
         resolve res
 
   it 'should upload image from stream', ->
@@ -36,8 +37,29 @@ describe 'upload method', ->
 
     gyazo.upload fs.createReadStream "#{__dirname}/test.jpg"
     .then (res) ->
-      new Promise (resolve, reject) ->
-        assert.equal typeof(res.image_id), 'string'
-        assert.equal /^https?:\/\/.+/.test(res.permalink_url), true
-        assert.equal /^https?:\/\/.+/.test(res.url), true
-        resolve res
+      assert.equal typeof(res.response), 'object'
+      assert.equal typeof(res.data.image_id), 'string'
+      assert.equal /^https?:\/\/.+/.test(res.data.permalink_url), true
+      assert.equal /^https?:\/\/.+/.test(res.data.url), true
+
+
+describe '"list" method', ->
+
+  gyazo = new Gyazo process.env.GYAZO_TOKEN
+
+  it 'should return list of images', ->
+
+    @timeout 3000
+
+    gyazo.list
+      page: 2
+      per_page: 5
+    .then (res) ->
+      assert.equal typeof(res.response), 'object'
+      assert.equal res.data instanceof Array, true
+      assert.equal res.data.length, 5
+      assert.equal typeof(res.data[0].image_id), 'string'
+      assert.equal /^https?:\/\/.+/.test(res.data[0].permalink_url), true
+      assert.equal /^https?:\/\/.+/.test(res.data[0].url), true
+      assert.equal res.response.headers['x-current-page'], 2
+      assert.equal res.response.headers['x-per-page'], 5

@@ -5,10 +5,11 @@ var Gyazo = require(path.resolve()); // load this repos
 
 var client = new Gyazo(process.env.GYAZO_TOKEN);
 
-client.list()
+client.list({page: 1, per_page: 50})
 .then(function(res){
-  console.log(res);
-  console.log(res[0]);
+  console.log(res.data[0]);
+  console.log(res.response.headers['x-current-page']); // => 1
+  console.log(res.response.headers['x-per-page']);     // => 50
 })
 .catch(function(err){
   console.error(err);

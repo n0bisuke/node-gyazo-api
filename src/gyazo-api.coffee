@@ -19,18 +19,23 @@ module.exports = class Gyazo
       , (err, res, body) ->
         return reject err if err
         return reject res if res.statusCode isnt 200
-        resolve JSON.parse body
+        resolve
+          response: res
+          data:     JSON.parse body
       .form().append "imagedata", image
 
-
-  list: ->
+  list: (query = {}) ->
     new Promise (resolve, reject) =>
+      query.access_token = @access_token
       url = "https://api.gyazo.com/api/images"
       request.get
         url: url
-        qs:
-          access_token: @access_token
+        qs: query
       , (err, res, body) ->
         return reject err if err
         return reject res if res.statusCode isnt 200
-        resolve JSON.parse body
+        resolve
+          response: res
+          data:     JSON.parse res.body
+
+

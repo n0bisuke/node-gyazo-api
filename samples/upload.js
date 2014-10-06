@@ -5,10 +5,12 @@ var Gyazo = require(path.resolve()); // load this repos
 
 var client = new Gyazo(process.env.GYAZO_TOKEN);
 
-client.upload(process.argv[2])
+var img_path = process.argv[2];
+
+client.upload(img_path)
 .then(function(res){
-  console.log(res);
-  console.log(res.permalink_url);
+  console.log(res.data);
+  console.log(res.data.permalink_url);
 })
 .catch(function(err){
   console.error(err);

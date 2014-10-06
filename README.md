@@ -18,8 +18,8 @@ var client = new Gyazo('ACCESS_TOKEN');
 
 client.upload('/path/to/file.jpg')
 .then(function(res){
-  console.log(res);
-  console.log(res.permalink_url);
+  console.log(res.data);
+  console.log(res.data.permalink_url);
 })
 .catch(function(err){
   console.error(err);
